@@ -1,0 +1,13 @@
+services:
+  suchi:
+    build: .
+    image: suchi
+    ports:
+      - "8081:8080"
+    volumes:
+      # NUC: mount your media tree read-only at /data inside the container.
+      - ${SUCHI_MEDIA_PATH:-./data}:/data:ro
+    environment:
+      SUCHI_DATA_ROOT: /data
+      SUCHI_ADDR: :8080
+    restart: unless-stopped

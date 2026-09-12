@@ -1,0 +1,6 @@
+.git
+data
+frontend/node_modules
+backend/static
+**/suchi-test
+**/*.md
