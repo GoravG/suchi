@@ -27,6 +27,9 @@ jobs:
       - name: Download Go dependencies
         run: go mod download
 
+      - name: Ensure embedded static directory exists
+        run: mkdir -p static && touch static/index.html
+
       - name: Run Backend Tests
         run: go test -v -race -cover ./...
 

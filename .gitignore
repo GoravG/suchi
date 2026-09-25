@@ -1,5 +1,6 @@
 frontend/node_modules
-backend/static/
+backend/static/*
+!backend/static/index.html
 backend/suchi
 backend/suchi-server
 suchi
