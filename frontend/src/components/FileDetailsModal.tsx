@@ -1,14 +1,12 @@
 import { useState } from "react";
 import {
   Download,
-  Copy,
   Check,
   Calendar,
   HardDrive,
-  FileText,
   ExternalLink,
 } from "lucide-react";
-import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "./ui/dialog";
+import { Dialog, DialogHeader, DialogTitle, DialogFooter } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { FileIcon } from "./FileIcon";
@@ -19,6 +17,7 @@ import {
   type FileEntry,
 } from "@/services/api";
 import { formatBytes, formatExactBytes, formatModified, formatRelativeTime } from "@/utils/format";
+import { copyToClipboard } from "@/utils/clipboard";
 
 interface FileDetailsModalProps {
   entry: FileEntry | null;
@@ -34,7 +33,6 @@ export function FileDetailsModal({
   onOpenChange,
 }: FileDetailsModalProps) {
   const [copiedLink, setCopiedLink] = useState(false);
-  const [copiedPath, setCopiedPath] = useState(false);
 
   if (!entry) return null;
 
@@ -47,22 +45,10 @@ export function FileDetailsModal({
       : downloadLink;
 
   const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(absoluteDownloadUrl);
+    const success = await copyToClipboard(absoluteDownloadUrl);
+    if (success) {
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
-    } catch {
-      // fallback
-    }
-  };
-
-  const handleCopyPath = async () => {
-    try {
-      await navigator.clipboard.writeText(fullPath);
-      setCopiedPath(true);
-      setTimeout(() => setCopiedPath(false), 2000);
-    } catch {
-      // fallback
     }
   };
 
@@ -78,7 +64,7 @@ export function FileDetailsModal({
               {entry.name}
             </DialogTitle>
             <div className="mt-1 flex flex-wrap items-center gap-1.5">
-              <Badge variant="outline" className="capitalize text-[11px]">
+              <Badge variant="outline" className="capitalize text-[11px] border-border text-foreground/80">
                 {category}
               </Badge>
               {extension && (
@@ -124,7 +110,7 @@ export function FileDetailsModal({
         </div>
       )}
 
-      {/* Metadata list */}
+      {/* Metadata list (clean & minimal without path) */}
       <div className="my-3 space-y-2 rounded-xl bg-muted/30 p-3.5 border border-border/60 text-xs sm:text-sm">
         <div className="flex items-center justify-between py-1 border-b border-border/40">
           <span className="flex items-center gap-2 text-muted-foreground">
@@ -139,7 +125,7 @@ export function FileDetailsModal({
           </span>
         </div>
 
-        <div className="flex items-center justify-between py-1 border-b border-border/40">
+        <div className="flex items-center justify-between py-1">
           <span className="flex items-center gap-2 text-muted-foreground">
             <Calendar className="h-4 w-4" />
             Modified
@@ -151,39 +137,9 @@ export function FileDetailsModal({
             </span>
           </span>
         </div>
-
-        <div className="flex items-start justify-between py-1">
-          <span className="flex items-center gap-2 text-muted-foreground shrink-0 mt-0.5">
-            <FileText className="h-4 w-4" />
-            Path
-          </span>
-          <span className="font-mono text-xs text-foreground/80 break-all text-right pl-4">
-            {fullPath}
-          </span>
-        </div>
       </div>
 
       <DialogFooter className="gap-2 sm:gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={handleCopyPath}
-          className="w-full sm:w-auto"
-        >
-          {copiedPath ? (
-            <>
-              <Check className="h-4 w-4 text-foreground" />
-              <span>Path Copied</span>
-            </>
-          ) : (
-            <>
-              <Copy className="h-4 w-4" />
-              <span>Copy Path</span>
-            </>
-          )}
-        </Button>
-
         <Button
           type="button"
           variant="secondary"
