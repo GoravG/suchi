@@ -10,7 +10,7 @@ RUN npm ci
 COPY frontend/ ./
 RUN npm run build
 
-FROM golang:1.23-alpine AS build
+FROM golang:alpine AS build
 
 ENV GOTOOLCHAIN=auto
 

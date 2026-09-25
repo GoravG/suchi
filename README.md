@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/GoravG/suchi/actions/workflows/ci.yml/badge.svg)](https://github.com/GoravG/suchi/actions/workflows/ci.yml)
 [![Docker Image Size](https://img.shields.io/badge/docker_image-<10MB-black?style=flat&logo=docker)](https://hub.docker.com/r/goravg/suchi)
-[![Go Version](https://img.shields.io/badge/Go-1.23-black?style=flat&logo=go)](https://golang.org)
+[![Go Version](https://img.shields.io/badge/Go-1.27-black?style=flat&logo=go)](https://golang.org)
 [![License: MIT](https://img.shields.io/badge/license-MIT-black.svg)](LICENSE)
 
 A lightweight, ultra-minimal self-hosted web file browser designed to browse and stream mounted media trees on home servers and NUCs.
@@ -98,7 +98,7 @@ docker run -d \
 ## Local Development (Without Docker)
 
 ### Prerequisites
-- **Go 1.23+**
+- **Go 1.27+**
 - **Node.js 20+** & **npm**
 
 ### Step 1: Build the Frontend
@@ -152,7 +152,7 @@ npm test
 suchi/
 ├── Dockerfile                  # Multi-stage build producing a ~9.5MB `scratch` image
 ├── docker-compose.yml          # Container deployment specification
-├── backend/                    # Go HTTP backend (Go 1.23)
+├── backend/                    # Go HTTP backend (Go 1.27+)
 │   ├── main.go                 # Router, path validation & /api/files endpoint
 │   ├── download.go             # /api/files/download streaming handler
 │   ├── static.go               # SPA server utilizing go:embed
