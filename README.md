@@ -1,5 +1,11 @@
 # Suchi
 
+[![CI](https://github.com/GoravG/suchi/actions/workflows/ci.yml/badge.svg)](https://github.com/GoravG/suchi/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-80%25-black?style=flat)](https://github.com/GoravG/suchi/actions/workflows/ci.yml)
+[![Docker Image Size](https://img.shields.io/badge/docker_image-<10MB-black?style=flat&logo=docker)](https://hub.docker.com/r/goravg/suchi)
+[![Go Version](https://img.shields.io/badge/Go-1.23-black?style=flat&logo=go)](https://golang.org)
+[![License: MIT](https://img.shields.io/badge/license-MIT-black.svg)](LICENSE)
+
 A lightweight, ultra-minimal self-hosted web file browser designed to browse and stream mounted media trees on home servers and NUCs.
 
 Built with a **Go** backend and a **React 19 + Tailwind CSS v4** frontend, packaged into a single standalone static binary with zero external dependencies.
@@ -124,6 +130,20 @@ cd frontend
 npm run dev
 ```
 Visit Vite's local dev URL (usually `http://localhost:5173`).
+
+### Running Tests
+
+Run the backend and frontend unit test suites:
+
+```bash
+# Run backend Go unit tests with coverage
+cd backend
+go test -v -race -cover ./...
+
+# Run frontend Vitest test suite
+cd ../frontend
+npm test
+```
 
 ---
 
