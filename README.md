@@ -1,7 +1,7 @@
 # Suchi
 
 [![CI](https://github.com/GoravG/suchi/actions/workflows/ci.yml/badge.svg)](https://github.com/GoravG/suchi/actions/workflows/ci.yml)
-[![Coverage](https://img.shields.io/badge/coverage-80%25-black?style=flat)](https://github.com/GoravG/suchi/actions/workflows/ci.yml)
+[![Coverage](https://codecov.io/gh/GoravG/suchi/branch/master/graph/badge.svg)](https://codecov.io/gh/GoravG/suchi)
 [![Docker Image Size](https://img.shields.io/badge/docker_image-<10MB-black?style=flat&logo=docker)](https://hub.docker.com/r/goravg/suchi)
 [![Go Version](https://img.shields.io/badge/Go-1.23-black?style=flat&logo=go)](https://golang.org)
 [![License: MIT](https://img.shields.io/badge/license-MIT-black.svg)](LICENSE)

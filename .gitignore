@@ -6,3 +6,6 @@ backend/suchi-server
 suchi
 suchi-server
 data/
+coverage/
+frontend/coverage/
+*.out
