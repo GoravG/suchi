@@ -45,9 +45,32 @@ Built with a **Go** backend and a **React 19 + Tailwind CSS v4** frontend, packa
 
 ---
 
-## Quickstart with Docker
+## Installation & Running
 
-### 1. Using Docker Compose (Recommended)
+### 1. Standalone Binary (Zero Dependencies)
+
+Download the standalone binary for your platform from the [Releases](https://github.com/GoravG/suchi/releases) page, make it executable, and run:
+
+```bash
+# Example on Linux:
+chmod +x suchi-linux-amd64
+SUCHI_DATA_ROOT="/path/to/media" ./suchi-linux-amd64
+
+# Example on macOS (Apple Silicon):
+chmod +x suchi-darwin-arm64
+SUCHI_DATA_ROOT="/path/to/media" ./suchi-darwin-arm64
+```
+
+Pre-compiled binaries available for every release:
+- **`suchi-linux-amd64`**: Linux x86_64 servers & PCs
+- **`suchi-linux-arm64`**: Linux ARM64 (Raspberry Pi 4/5, cloud ARM instances)
+- **`suchi-darwin-arm64`**: macOS Apple Silicon (M1/M2/M3/M4)
+- **`suchi-darwin-amd64`**: macOS Intel
+- **`suchi-windows-amd64.exe`**: Windows 64-bit
+
+---
+
+### 2. Using Docker Compose
 
 1. Clone the repository:
    ```bash

@@ -6,6 +6,7 @@ backend/suchi-server
 suchi
 suchi-server
 data/
+dist/
 coverage/
 frontend/coverage/
 *.out

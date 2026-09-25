@@ -1,4 +1,4 @@
-name: Docker Publish
+name: Release
 
 on:
   push:
@@ -10,7 +10,8 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-push:
+  release:
+    name: Build & Publish Release
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -20,13 +21,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 1. Set up Docker & Build Container Image
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract metadata
+      - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -34,6 +36,7 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -43,12 +46,68 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      # 2. Build Frontend for Standalone Binaries
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build Frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
+      # 3. Cross-compile Standalone Go Binaries
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache: true
+          cache-dependency-path: backend/go.mod
+
+      - name: Build Standalone Binaries
+        working-directory: backend
+        run: |
+          mkdir -p ../dist
+
+          # Linux (x86_64 and ARM64 / Raspberry Pi)
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o ../dist/suchi-linux-amd64 .
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o ../dist/suchi-linux-arm64 .
+
+          # macOS (Apple Silicon and Intel)
+          CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -trimpath -ldflags="-s -w" -o ../dist/suchi-darwin-arm64 .
+          CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o ../dist/suchi-darwin-amd64 .
+
+          # Windows (x86_64)
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -trimpath -ldflags="-s -w" -o ../dist/suchi-windows-amd64.exe .
+
+          # Generate SHA256 checksums
+          cd ../dist
+          sha256sum suchi-* > checksums.txt
+
+      # 4. Publish GitHub Release with Attached Binaries
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           name: Release ${{ github.ref_name }}
           body: |
-            Docker image tags:
-            ${{ steps.meta.outputs.tags }}
+            ## Docker Container
+            ```bash
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            ```
+
+            ## Standalone Binaries
+            Download the binary for your operating system below, make it executable, and run directly:
+            ```bash
+            # Example (Linux):
+            chmod +x suchi-linux-amd64
+            SUCHI_DATA_ROOT="/path/to/media" ./suchi-linux-amd64
+            ```
+          files: |
+            dist/suchi-*
+            dist/checksums.txt
           draft: false
           prerelease: false
