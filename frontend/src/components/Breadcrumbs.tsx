@@ -73,7 +73,7 @@ export function Breadcrumbs({ path, onNavigate }: Props) {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          <Home className="h-4 w-4 text-primary" />
+          <Home className="h-4 w-4 text-foreground" />
           <span>Root</span>
         </Button>
 

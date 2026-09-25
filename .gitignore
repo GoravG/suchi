@@ -1,2 +1,7 @@
 frontend/node_modules
 backend/static/
+backend/suchi
+backend/suchi-server
+suchi
+suchi-server
+data/

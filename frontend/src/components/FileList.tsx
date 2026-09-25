@@ -14,8 +14,6 @@ type Props = {
   onSortChange: (field: SortField) => void;
   onOpenDirectory: (path: string) => void;
   onSelectFile: (entry: FileEntry, fullPath: string) => void;
-  isFiltered?: boolean;
-  onClearFilters?: () => void;
 };
 
 export function FileList({
@@ -27,32 +25,19 @@ export function FileList({
   onSortChange,
   onOpenDirectory,
   onSelectFile,
-  isFiltered,
-  onClearFilters,
 }: Props) {
   if (entries.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border py-16 px-4 text-center bg-card/40">
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-muted/60 text-muted-foreground">
-          <FolderOpen className="h-7 w-7" />
+      <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-16 px-4 text-center bg-card/40">
+        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-muted/60 text-muted-foreground">
+          <FolderOpen className="h-6 w-6" />
         </div>
-        <h3 className="text-base font-semibold text-foreground">
-          {isFiltered ? "No matching files found" : "This directory is empty"}
+        <h3 className="text-sm font-semibold text-foreground">
+          This folder is empty
         </h3>
-        <p className="mt-1 text-sm text-muted-foreground max-w-sm">
-          {isFiltered
-            ? "Try changing your search keywords or switching category filters."
-            : "There are no files or sub-directories inside this folder."}
+        <p className="mt-1 text-xs text-muted-foreground">
+          No files or directories found in this path.
         </p>
-        {isFiltered && onClearFilters && (
-          <button
-            type="button"
-            onClick={onClearFilters}
-            className="mt-4 text-xs font-semibold text-primary hover:underline"
-          >
-            Clear all filters
-          </button>
-        )}
       </div>
     );
   }
@@ -60,7 +45,7 @@ export function FileList({
   // Grid view
   if (viewMode === "grid") {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
         {entries.map((entry) => (
           <FileCard
             key={entry.name}
@@ -76,12 +61,12 @@ export function FileList({
 
   const renderSortIndicator = (field: SortField) => {
     if (sortField !== field) {
-      return <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground/40 inline ml-1.5" />;
+      return <ArrowUpDown className="h-3 w-3 text-muted-foreground/40 inline ml-1.5" />;
     }
     return sortDirection === "asc" ? (
-      <ArrowUp className="h-3.5 w-3.5 text-primary inline ml-1.5" />
+      <ArrowUp className="h-3 w-3 text-foreground inline ml-1.5" />
     ) : (
-      <ArrowDown className="h-3.5 w-3.5 text-primary inline ml-1.5" />
+      <ArrowDown className="h-3 w-3 text-foreground inline ml-1.5" />
     );
   };
 
@@ -109,7 +94,7 @@ export function FileList({
             >
               Modified {renderSortIndicator("modified")}
             </TableHead>
-            <TableHead className="w-24 text-right">Actions</TableHead>
+            <TableHead className="w-20 text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -23,7 +23,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
   const sizeClasses = {
     sm: "h-4 w-4",
     md: "h-5 w-5",
-    lg: "h-8 w-8",
+    lg: "h-7 w-7",
   }[size];
 
   if (category === "folder") {
@@ -31,7 +31,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
       <Folder
         className={cn(
           sizeClasses,
-          "text-amber-500 fill-amber-500/20 shrink-0",
+          "text-foreground shrink-0 stroke-[1.75]",
           className
         )}
       />
@@ -43,7 +43,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
       <Film
         className={cn(
           sizeClasses,
-          "text-indigo-400 fill-indigo-500/10 shrink-0",
+          "text-foreground/90 shrink-0 stroke-[1.75]",
           className
         )}
       />
@@ -55,7 +55,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
       <Music
         className={cn(
           sizeClasses,
-          "text-rose-400 fill-rose-500/10 shrink-0",
+          "text-foreground/90 shrink-0 stroke-[1.75]",
           className
         )}
       />
@@ -67,7 +67,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
       <ImageIcon
         className={cn(
           sizeClasses,
-          "text-emerald-400 fill-emerald-500/10 shrink-0",
+          "text-foreground/90 shrink-0 stroke-[1.75]",
           className
         )}
       />
@@ -79,7 +79,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
       <Archive
         className={cn(
           sizeClasses,
-          "text-amber-400 fill-amber-500/10 shrink-0",
+          "text-foreground/90 shrink-0 stroke-[1.75]",
           className
         )}
       />
@@ -91,7 +91,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
       <FileText
         className={cn(
           sizeClasses,
-          "text-sky-400 fill-sky-500/10 shrink-0",
+          "text-foreground/90 shrink-0 stroke-[1.75]",
           className
         )}
       />
@@ -103,7 +103,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
       <FileCode
         className={cn(
           sizeClasses,
-          "text-teal-400 fill-teal-500/10 shrink-0",
+          "text-foreground/90 shrink-0 stroke-[1.75]",
           className
         )}
       />
@@ -114,7 +114,7 @@ export function FileIcon({ entry, className, size = "md" }: FileIconProps) {
     <File
       className={cn(
         sizeClasses,
-        "text-muted-foreground shrink-0",
+        "text-muted-foreground shrink-0 stroke-[1.75]",
         className
       )}
     />

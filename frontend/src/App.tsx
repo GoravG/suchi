@@ -35,7 +35,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-primary/20 selection:text-primary">
+    <div className="min-h-screen bg-background text-foreground flex flex-col selection:bg-foreground selection:text-background">
       {/* Sticky Top Navbar */}
       <Navbar onNavigateHome={() => navigate("/")} />
 

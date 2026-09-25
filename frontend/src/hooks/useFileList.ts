@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   listFiles,
-  getFileCategory,
-  type FileCategory,
   type FileEntry,
   type ListFilesResponse,
 } from "@/services/api";
@@ -11,8 +9,6 @@ export type SortField = "name" | "size" | "modified";
 export type SortDirection = "asc" | "desc";
 
 export interface UseFileListOptions {
-  search?: string;
-  category?: FileCategory | "all";
   sortField?: SortField;
   sortDirection?: SortDirection;
 }
@@ -22,12 +18,7 @@ export function useFileList(path: string, options: UseFileListOptions = {}) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const {
-    search = "",
-    category = "all",
-    sortField = "name",
-    sortDirection = "asc",
-  } = options;
+  const { sortField = "name", sortDirection = "asc" } = options;
 
   const load = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
@@ -56,7 +47,7 @@ export function useFileList(path: string, options: UseFileListOptions = {}) {
 
   const rawEntries = data?.entries ?? [];
 
-  // Computed statistics for the current folder
+  // Directory statistics
   const stats = useMemo(() => {
     let folderCount = 0;
     let fileCount = 0;
@@ -79,25 +70,10 @@ export function useFileList(path: string, options: UseFileListOptions = {}) {
     };
   }, [rawEntries]);
 
-  // Filtered and sorted entries
-  const processedEntries = useMemo(() => {
-    let list = [...rawEntries];
+  // Sorted entries (directories always listed first)
+  const entries = useMemo(() => {
+    const list = [...rawEntries];
 
-    // Filter by category
-    if (category !== "all") {
-      list = list.filter((item) => {
-        const cat = getFileCategory(item);
-        return cat === category;
-      });
-    }
-
-    // Filter by search query
-    if (search.trim()) {
-      const q = search.trim().toLowerCase();
-      list = list.filter((item) => item.name.toLowerCase().includes(q));
-    }
-
-    // Sort entries (Directories first, unless custom sorted)
     list.sort((a, b) => {
       if (a.type !== b.type) {
         return a.type === "directory" ? -1 : 1;
@@ -116,12 +92,11 @@ export function useFileList(path: string, options: UseFileListOptions = {}) {
     });
 
     return list;
-  }, [rawEntries, category, search, sortField, sortDirection]);
+  }, [rawEntries, sortField, sortDirection]);
 
   return {
     data,
-    entries: processedEntries,
-    rawEntries,
+    entries,
     stats,
     loading,
     error,

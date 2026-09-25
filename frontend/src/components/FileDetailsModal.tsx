@@ -173,7 +173,7 @@ export function FileDetailsModal({
         >
           {copiedPath ? (
             <>
-              <Check className="h-4 w-4 text-emerald-500" />
+              <Check className="h-4 w-4 text-foreground" />
               <span>Path Copied</span>
             </>
           ) : (
@@ -193,7 +193,7 @@ export function FileDetailsModal({
         >
           {copiedLink ? (
             <>
-              <Check className="h-4 w-4 text-emerald-500" />
+              <Check className="h-4 w-4 text-foreground" />
               <span>Link Copied</span>
             </>
           ) : (

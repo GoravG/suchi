@@ -44,7 +44,7 @@ export function FileItem({
             <FileIcon entry={entry} size="md" />
           </div>
           <div className="min-w-0 flex-1">
-            <span className="block truncate font-medium text-foreground text-sm group-hover:text-primary transition-colors">
+            <span className="block truncate font-medium text-foreground text-sm group-hover:underline underline-offset-2 transition-colors">
               {entry.name}
             </span>
             {/* Mobile-only secondary info */}
@@ -115,7 +115,7 @@ export function FileItem({
                   type="button"
                   variant="ghost"
                   size="icon-sm"
-                  className="text-muted-foreground hover:text-primary"
+                  className="text-muted-foreground hover:text-foreground"
                 >
                   <Download className="h-4 w-4" />
                   <span className="sr-only">Download</span>

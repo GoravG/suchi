@@ -41,18 +41,18 @@ export function FileCard({
   return (
     <Card
       onClick={handleClick}
-      className="group relative cursor-pointer border border-border/70 bg-card/60 backdrop-blur-xs transition-all hover:border-primary/50 hover:bg-card hover:shadow-md active:scale-[0.99]"
+      className="group relative cursor-pointer border border-border bg-card transition-all hover:border-foreground/50 hover:bg-accent/40 active:scale-[0.99]"
     >
-      <CardContent className="p-4 flex flex-col justify-between h-full">
+      <CardContent className="p-3.5 flex flex-col justify-between h-full">
         <div>
           {/* Top row: Icon + Extension Badge */}
-          <div className="flex items-start justify-between gap-2 mb-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-muted/60 transition-transform group-hover:scale-105">
+          <div className="flex items-start justify-between gap-2 mb-2.5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted/60 transition-transform group-hover:scale-105">
               <FileIcon entry={entry} size="lg" />
             </div>
             <div className="flex items-center gap-1">
               {isDir ? (
-                <Badge variant="outline" className="text-[10px] uppercase font-semibold text-amber-500 border-amber-500/30">
+                <Badge variant="outline" className="text-[10px] uppercase font-semibold text-foreground/80 border-border">
                   Folder
                 </Badge>
               ) : (
@@ -65,7 +65,7 @@ export function FileCard({
 
           {/* Name */}
           <h4
-            className="font-medium text-sm text-foreground line-clamp-2 break-all group-hover:text-primary transition-colors leading-snug mb-2"
+            className="font-medium text-xs sm:text-sm text-foreground line-clamp-2 break-all group-hover:underline underline-offset-2 transition-colors leading-snug mb-1"
             title={entry.name}
           >
             {entry.name}
@@ -112,7 +112,7 @@ export function FileCard({
                   type="button"
                   variant="subtle"
                   size="icon-sm"
-                  className="h-7 w-7 text-muted-foreground hover:text-primary"
+                  className="h-7 w-7 text-muted-foreground hover:text-foreground"
                 >
                   <Download className="h-3.5 w-3.5" />
                   <span className="sr-only">Download</span>
